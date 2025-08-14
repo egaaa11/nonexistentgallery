@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ギャラリーウェブサイト</title>
+  <!-- Tailwind CSS CDNを読み込み -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome CDNを読み込み -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" xintegrity="sha512-1ycn6IcaQQ40jB92o8oIaxJphfO+0Y7z+i5s/u/U9Fw7c7J03/2x/f8G6C6b6N/c9O7hJ7g7oJv6z7O9w7a7w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- ReactとReactDOMのCDNを読み込み -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Babelを読み込み、JSXをブラウザでコンパイル -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    /* スムーズスクロールを有効にする */
+    html {
+      scroll-behavior: smooth;
+    }
+    /* トップ画像のフェードインアニメーションのキーフレーム */
+    @keyframes topImageFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    /* アニメーションを適用するクラス */
+    .top-image-fade-in {
+      animation: topImageFadeIn 1.8s ease-out forwards;
+    }
+    /* Interフォントを全体に適用 */
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    /* SVGノイズ画像が背景で繰り返さないように設定 */
+    .background-pattern {
+      background-repeat: repeat;
+      background-size: auto;
+    }
+    /* グローバルなスタイルを適用する */
+    .background-pattern {
+      background-color: #fafafa;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cfilter id='noise' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' stitchTiles='stitch' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+    }
+  </style>
+</head>
+<body>
+  <!-- Reactコンポーネントがマウントされる場所 -->
+  <div id="root"></div>
+
+  <!-- Reactコンポーネントのコード -->
+  <script type="text/babel">
+    const { useState } = React;
+
+    function App() {
+      const [isMenuOpen, setMenuOpen] = useState(false);
+
+      return (
+        <div className="min-h-screen font-sans text-gray-800 background-pattern">
+          <header className="fixed top-0 right-0 p-8 z-20">
+            <div
+              className="relative"
+              onMouseEnter={() => setMenuOpen(true)}
+              onMouseLeave={() => setMenuOpen(false)}
+            >
+              <button className="text-3xl text-gray-700 focus:outline-none transition-transform duration-300 hover:scale-110">
+                <i className="fas fa-bars"></i>
+              </button>
+              <nav
+                className={`absolute top-full right-0 mt-2 bg-white/90 backdrop-blur-sm rounded-md shadow-xl p-6 transition-all duration-300 ease-out ${
+                  isMenuOpen
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 -translate-y-4 pointer-events-none"
+                }`}
+              >
+                <ul className="flex flex-col space-y-4 whitespace-nowrap">
+                  <li>
+                    <a
+                      href="#about"
+                      className="text-lg text-gray-700 hover:text-blue-600 transition-colors"
+                    >
+                      About
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#project"
+                      className="text-lg text-gray-700 hover:text-blue-600 transition-colors"
+                    >
+                      Productions
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#access"
+                      className="text-lg text-gray-700 hover:text-blue-600 transition-colors"
+                    >
+                      Access
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#contact"
+                      className="text-lg text-gray-700 hover:text-blue-600 transition-colors"
+                    >
+                      Contact
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </header>
+
+          <main className="h-screen w-full top-image-fade-in">
+            <img
+              src="images/top.jpg"
+              alt="Exterior of a gallery"
+              className="w-full h-full object-contain"
+            />
+          </main>
+
+          <section id="about" className="py-20 px-4 md:px-8">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-4xl font-bold text-gray-800 mb-8 tracking-wider">
+                About
+              </h2>
+              <div className="text-left text-gray-700 leading-relaxed space-y-6">
+                <p>古い建物の記憶と、新しい感性の交差点</p>
+                <p>
+                  このギャラリーは、惜しまれつつも店を閉じた豆腐屋さんをリノベーションして生まれました。
+                </p>
+                <p>
+                  豆腐屋の面影が残る土壁や梁はそのままに、新しい風を吹き込むギャラリーとして再出発しました。
+                </p>
+                <p>
+                  ここは、地域に根差した「古いもの」と、アートという「新しいもの」が交差する場所です。
+                </p>
+                <p>
+                  特定のジャンルにとらわれず、写真、絵画、工芸品など、若手アーティストの多様な表現を紹介します。
+                </p>
+                <p>
+                  地域の人々とアーティストが交流できるイベントも定期的に開催し、この場所が新たな創造の生まれる拠点となることを目指しています。
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section id="project" className="py-20 px-4 md:px-8 bg-white/50">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-4xl font-bold text-gray-800 mb-8 tracking-wider">
+                Productions
+              </h2>
+              <div className="text-left text-gray-700 leading-relaxed space-y-6">
+                <p>
+                  写真、絵画、工芸品など、若手アーティストの多様な表現を紹介します。
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section id="access" className="py-20 px-4 md:px-8">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-4xl font-bold text-gray-800 mb-8 tracking-wider">
+                Access
+              </h2>
+              <div className="text-left text-gray-700 leading-relaxed space-y-6">
+                <div>
+                  <p className="font-bold">所在地</p>
+                  <p>東京都世田谷区上馬4丁目5-8</p>
+                </div>
+                <div>
+                  <p className="font-bold">営業時間</p>
+                  <ul className="list-disc list-inside ml-4">
+                    <li>水曜日～月曜日：11:00～18:00</li>
+                    <li>休廊日：毎週火曜日</li>
+                  </ul>
+                </div>
+                <p>
+                  この場所は、東急田園都市線の駒沢大学駅から徒歩10分、閑静な住宅街の中にあります。
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section id="contact" className="py-20 px-4 md:px-8">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-4xl font-bold text-gray-800 mb-8 tracking-wider">
+                Contact
+              </h2>
+              <div className="text-left text-gray-700 leading-relaxed space-y-6">
+                <a
+                  href="https://www.instagram.com/_egaaa_?igsh=d3RhazVxcDB6eGto"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src="images/Instagram_Glyph_Black.png"
+                    alt="Contact"
+                    className="h-12 w-12"
+                  />
+                </a>
+                <p>@_egaaa_</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      );
+    }
+    
+    // ReactコンポーネントをDOMにレンダリング
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
