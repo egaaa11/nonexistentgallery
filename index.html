@@ -1,226 +1,231 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nonexistent Gallery</title>
-  <!-- Tailwind CSS CDNを読み込み -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome CDNを読み込み -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" xintegrity="sha512-1ycn6IcaQQ40jB92o8oIaxJphfO+0Y7z+i5s/u/U9Fw7c7J03/2x/f8G6C6b6N/c9O7hJ7g7oJv6z7O9w7a7w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- ReactとReactDOMのCDNを読み込み -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <!-- Babelを読み込み、JSXをブラウザでコンパイル -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <style>
-    /* スムーズスクロールを有効にする */
-    html {
-      scroll-behavior: smooth;
-    }
-    /* トップ画像のフェードインアニメーションのキーフレーム */
-    @keyframes topImageFadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    /* アニメーションを適用するクラス */
-    .top-image-fade-in {
-      animation: topImageFadeIn 1.8s ease-out forwards;
-    }
-    /* Interフォントを全体に適用 */
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    /* SVGノイズ画像が背景で繰り返さないように設定 */
-    .background-pattern {
-      background-repeat: repeat;
-      background-size: auto;
-    }
-    /* グローバルなスタイルを適用する */
-    .background-pattern {
-      background-color: #fafafa;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cfilter id='noise' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' stitchTiles='stitch' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ギャラリーウェブサイト</title>
+    <!-- Tailwind CSS CDNを読み込む -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesomeアイコンを読み込む -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Interフォントを読み込む -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* グローバルスタイル */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fafafa;
+            /* 背景にSVGノイズパターンを適用 */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cfilter id='noise' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' stitchTiles='stitch' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+        }
+
+        /* スムーズなスクロールを有効にする */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* トップ画像のフェードインアニメーション */
+        @keyframes topImageFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .top-image-fade-in {
+            animation: topImageFadeIn 1.8s ease-out forwards;
+        }
+
+        /* スクロールバーを非表示にする（WebKit/Blinkエンジン用） */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        /* スクロールバーを非表示にする（IE、Edge、Firefox用） */
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* 画像拡大モーダルのアニメーション */
+        .modal-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
-<body>
-  <!-- Reactコンポーネントがマウントされる場所 -->
-  <div id="root"></div>
+<body class="text-gray-800">
 
-  <!-- Reactコンポーネントのコード -->
-  <script type="text/babel">
-    const { useState } = React;
-
-    function App() {
-      const [isMenuOpen, setMenuOpen] = useState(false);
-
-      return (
-        <div className="min-h-screen font-sans text-gray-800 background-pattern">
-          <header className="fixed top-0 right-0 p-8 z-20">
-            <div
-              className="relative"
-              onMouseEnter={() => setMenuOpen(true)}
-              onMouseLeave={() => setMenuOpen(false)}
-            >
-              <button className="text-3xl text-gray-700 focus:outline-none transition-transform duration-300 hover:scale-110">
-                <i className="fas fa-bars"></i>
-              </button>
-              <nav
-                className={`absolute top-full right-0 mt-2 bg-white/90 backdrop-blur-sm rounded-md shadow-xl p-6 transition-all duration-300 ease-out ${
-                  isMenuOpen
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 -translate-y-4 pointer-events-none"
-                }`}
-              >
-                <ul className="flex flex-col space-y-4 whitespace-nowrap">
-                  <li>
-                    <a
-                      href="#about"
-                      className="text-lg text-gray-700 hover:text-blue-600 transition-colors"
-                    >
-                      About
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#project"
-                      className="text-lg text-gray-700 hover:text-blue-600 transition-colors"
-                    >
-                      Productions
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#access"
-                      className="text-lg text-gray-700 hover:text-blue-600 transition-colors"
-                    >
-                      Access
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#contact"
-                      className="text-lg text-gray-700 hover:text-blue-600 transition-colors"
-                    >
-                      Contact
-                    </a>
-                  </li>
+    <!-- ヘッダーセクション -->
+    <header class="fixed top-0 right-0 p-8 z-20">
+        <div class="relative group">
+            <button id="menu-button" class="text-3xl text-gray-700 focus:outline-none transition-transform duration-300 hover:scale-110">
+                <i class="fas fa-bars"></i>
+            </button>
+            <!-- ナビゲーションメニュー -->
+            <nav id="nav-menu" class="absolute top-full right-0 mt-2 bg-white/90 backdrop-blur-sm rounded-md shadow-xl p-6 transition-all duration-300 ease-out opacity-0 -translate-y-4 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto">
+                <ul class="flex flex-col space-y-4 whitespace-nowrap">
+                    <li><a href="#about" class="text-lg text-gray-700 hover:text-blue-600 transition-colors">About</a></li>
+                    <li><a href="#project" class="text-lg text-gray-700 hover:text-blue-600 transition-colors">Productions</a></li>
+                    <li><a href="#access" class="text-lg text-gray-700 hover:text-blue-600 transition-colors">Access</a></li>
+                    <li><a href="#contact" class="text-lg text-gray-700 hover:text-blue-600 transition-colors">Contact</a></li>
                 </ul>
-              </nav>
-            </div>
-          </header>
+            </nav>
+        </div>
+    </header>
 
-          <main className="h-screen w-full top-image-fade-in">
-            <img
-              src="images/top.jpg"
-              alt="Exterior of a gallery"
-              className="w-full h-full object-contain"
-            />
-          </main>
+    <!-- メインビジュアルセクション -->
+    <main class="h-screen w-full top-image-fade-in">
+        <img src="https://ucarecdn.com/3334139b-33af-4ae5-b617-af8b13ce6cc0/" alt="Exterior of a gallery" class="w-full h-full object-contain">
+    </main>
 
-          <section id="about" className="py-20 px-4 md:px-8">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl font-bold text-gray-800 mb-8 tracking-wider">
-                About
-              </h2>
-              <div className="text-center text-gray-700 leading-relaxed space-y-6">
+    <!-- Aboutセクション -->
+    <section id="about" class="py-20 px-4 md:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 tracking-wider">About</h2>
+            <div class="text-center text-gray-700 leading-relaxed space-y-6">
                 <p>古い建物の記憶と、新しい感性の交差点</p>
-                <p>
-                  このギャラリーは、惜しまれつつも店を閉じた豆腐屋さんをリノベーションして生まれました。
-                </p>
-                <p>
-                  豆腐屋の面影が残る土壁や梁はそのままに、新しい風を吹き込むギャラリーとして再出発しました。
-                </p>
-                <p>
-                  ここは、地域に根差した「古いもの」と、アートという「新しいもの」が交差する場所です。
-                </p>
-                <p>
-                  特定のジャンルにとらわれず、写真、絵画、工芸品など、若手アーティストの多様な表現を紹介します。
-                </p>
-                <p>
-                  地域の人々とアーティストが交流できるイベントも定期的に開催し、この場所が新たな創造の生まれる拠点となることを目指しています。
-                </p>
-              </div>
+                <p>このギャラリーは、惜しまれつつも店を閉じた豆腐屋さんをリノベーションして生まれました。</p>
+                <p>豆腐屋の面影が残る土壁や梁はそのままに、新しい風を吹き込むギャラリーとして再出発しました。</p>
+                <p>ここは、地域に根差した「古いもの」と、アートという「新しいもの」が交差する場所です。</p>
+                <p>特定のジャンルにとらわれず、写真、絵画、工芸品など、若手アーティストの多様な表現を紹介します。</p>
+                <p>地域の人々とアーティストが交流できるイベントも定期的に開催し、この場所が新たな創造の生まれる拠点となることを目指しています。</p>
             </div>
-          </section>
+        </div>
+    </section>
 
-          <section id="project" className="py-20 px-4 md:px-8 bg-white/50">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl font-bold text-gray-800 mb-8 tracking-wider">
-                Productions
-              </h2>
-              <div className="text-center text-gray-700 leading-relaxed space-y-6">
-                <p>
-                  写真、絵画、工芸品など、若手アーティストの多様な表現を紹介します。
-                </p>
-              </div>
+    <!-- Productionsセクション (画像カルーセル) -->
+    <section id="project" class="py-20 bg-white/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-gray-800 mb-12 tracking-wider text-center">Productions</h2>
+            <div class="relative flex items-center">
+                <button id="scroll-left" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/70 rounded-full p-2 m-2 cursor-pointer hover:bg-white transition-colors duration-300" aria-label="Scroll left">
+                    <i class="fas fa-chevron-left text-gray-800 h-6 w-6"></i>
+                </button>
+                <div id="scroll-container" class="flex overflow-x-auto space-x-8 px-4 py-4 scroll-smooth scrollbar-hide">
+                    <!-- 画像はJavaScriptで動的に追加されます -->
+                </div>
+                <button id="scroll-right" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/70 rounded-full p-2 m-2 cursor-pointer hover:bg-white transition-colors duration-300" aria-label="Scroll right">
+                    <i class="fas fa-chevron-right text-gray-800 h-6 w-6"></i>
+                </button>
             </div>
-          </section>
+        </div>
+    </section>
 
-          <section id="access" className="py-20 px-4 md:px-8">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl font-bold text-gray-800 mb-8 tracking-wider">
-                Access
-              </h2>
-              <div className="text-center text-gray-700 leading-relaxed space-y-6">
+    <!-- アクセスセクション -->
+    <section id="access" class="py-20 px-4 md:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 tracking-wider">Access</h2>
+            <div class="text-center text-gray-700 leading-relaxed space-y-6">
                 <div>
-                  <p className="font-bold">所在地</p>
-                  <p>東京都世田谷区上馬4丁目5-8</p>
+                    <p class="font-bold">所在地</p>
+                    <p>東京都世田谷区上馬4丁目5-8</p>
                 </div>
                 <div>
-                  <p className="font-bold">営業時間</p>
-                  <ul className="list-disc list-inside ml-4">
-                    <li>水曜日～月曜日：11:00～18:00</li>
-                    <li>休廊日：毎週火曜日</li>
-                  </ul>
+                    <p class="font-bold">営業時間</p>
+                    <ul class="list-disc list-inside ml-4">
+                        <li>水曜日～月曜日：11:00～18:00</li>
+                        <li>休廊日：毎週火曜日</li>
+                    </ul>
                 </div>
-                <p>
-                  この場所は、東急田園都市線の駒沢大学駅から徒歩10分、閑静な住宅街の中にあります。
-                </p>
-              </div>
+                <p>この場所は、東急田園都市線の駒沢大学駅から徒歩10分、閑静な住宅街の中にあります。</p>
             </div>
-          </section>
+        </div>
+    </section>
 
-      <section id="contact" className="py-20 px-4 md:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-gray-800 mb-8 tracking-wider">
-            Contact
-          </h2>
-          <div className="text-center text-gray-700 leading-relaxed space-y-6">
-            <a
-              href="https://www.instagram.com/_egaaa_?igsh=d3RhazVxcDB6eGto"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block"
-            >
-              <img
-                src="images/Instagram_Glyph_Black.png"
-                alt="Contact"
-                className="h-12 w-12"
-              />
-            </a>
-            <p>@_egaaa_</p>
-          </div>
+    <!-- コンタクトセクション -->
+    <section id="contact" class="py-20 px-4 md:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 tracking-wider">Contact</h2>
+            <div class="text-center text-gray-700 leading-relaxed space-y-6">
+                <a href="https://www.instagram.com/_egaaa_?igsh=d3RhazVxcDB6eGto" target="_blank" rel="noopener noreferrer" class="inline-block">
+                    <img src="https://ucarecdn.com/bf2c0a18-0baf-464f-b7da-c90899c6feba/" alt="Contact" class="h-12 w-12">
+                </a>
+                <p>@_egaaa_</p>
+            </div>
         </div>
-      </section>
-        </div>
-      );
-    }
-    
-    // ReactコンポーネントをDOMにレンダリング
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
-  </script>
+    </section>
+
+    <!-- 画像拡大表示用モーダル -->
+    <div id="image-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 cursor-pointer modal-fade-in">
+        <img id="modal-image" class="max-w-[90vw] max-h-[90vh] object-contain rounded-lg">
+    </div>
+
+    <script>
+        // 画像URL配列
+        const images = [
+            "https://ucarecdn.com/2db3f8c7-53f1-4e6a-bfd1-5b3a13f1946a/",
+            "https://ucarecdn.com/ef49a2db-15d4-4a20-84ee-74a826380e62/",
+            "https://ucarecdn.com/d47fde82-f066-4743-8d83-ca26d2f978fa/",
+            "https://ucarecdn.com/90b19bd4-5f60-4568-a81a-a8e25a7b9026/",
+            "https://ucarecdn.com/0642c00b-7b85-40f3-9345-8132104bfb80/",
+            "https://ucarecdn.com/cfebd5f5-fce7-4238-b088-5fc21b3aae84/",
+            "https://ucarecdn.com/44c697d1-3ba7-4c71-ab13-8187b85b82bf/",
+            "https://ucarecdn.com/25999802-4b71-4111-9d49-86048ba2b7de/",
+        ];
+
+        // DOM要素の取得
+        const scrollContainer = document.getElementById('scroll-container');
+        const scrollLeftButton = document.getElementById('scroll-left');
+        const scrollRightButton = document.getElementById('scroll-right');
+        const imageModal = document.getElementById('image-modal');
+        const modalImage = document.getElementById('modal-image');
+        const navMenu = document.getElementById('nav-menu');
+
+        // 作品画像を動的に追加
+        images.forEach((src, index) => {
+            const container = document.createElement('div');
+            container.className = 'flex-shrink-0';
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = `Production image ${index + 1}`;
+            img.className = 'h-64 w-auto rounded-lg shadow-lg cursor-pointer transition-transform duration-300 hover:scale-105';
+            img.addEventListener('click', () => {
+                modalImage.src = src;
+                imageModal.classList.remove('hidden');
+            });
+            container.appendChild(img);
+            scrollContainer.appendChild(container);
+        });
+
+        // カルーセルスクロール機能
+        scrollLeftButton.addEventListener('click', () => {
+            scrollContainer.scrollBy({ left: -300, behavior: 'smooth' });
+        });
+
+        scrollRightButton.addEventListener('click', () => {
+            scrollContainer.scrollBy({ left: 300, behavior: 'smooth' });
+        });
+
+        // モーダルを閉じる
+        imageModal.addEventListener('click', () => {
+            imageModal.classList.add('hidden');
+        });
+
+        // キーボードのEscapeキーでモーダルを閉じる
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !imageModal.classList.contains('hidden')) {
+                imageModal.classList.add('hidden');
+            }
+        });
+
+        // ウィンドウのリサイズ時にスクロール位置を調整
+        window.addEventListener('resize', () => {
+            scrollContainer.scrollLeft = 0;
+        });
+
+    </script>
+
 </body>
 </html>
-
-
-
-
-
