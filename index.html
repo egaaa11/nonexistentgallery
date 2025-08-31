@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>nonexistent gallery</title>
-    <!-- Tailwind CSS CDNを読み込む -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesomeアイコンを読み込む -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Interフォントを読み込む -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
@@ -67,25 +64,23 @@
 </head>
 <body class="text-gray-800">
     
-    <!-- メインビジュアルセクション -->
     <div class="pt-40 pb-12 text-center px-4">
-    <h1 class="text-2xl md:text-2xl font-bold text-gray-800 tracking-widest">
-      NONEXISTENT GALLERY
-    </h1>
-    <p class="mt-2 text-gray-700">
-      －このギャラリーはフィクションです－
-    </p>
-  </div>
+        <h1 class="text-2xl md:text-2xl font-bold text-gray-800 tracking-widest">
+            NONEXISTENT GALLERY
+        </h1>
+        <p class="mt-2 text-gray-700">
+            －このギャラリーはフィクションです－
+        </p>
+    </div>
 
-  <main class="h-screen w-full top-image-fade-in">
-    <img
-      src="https://ucarecdn.com/3334139b-33af-4ae5-b617-af8b13ce6cc0/"
-      alt="Exterior of a gallery"
-      class="w-full h-full object-contain"
-    />
-  </main>
+    <main class="h-screen w-full top-image-fade-in">
+        <img
+            src="https://ucarecdn.com/3334139b-33af-4ae5-b617-af8b13ce6cc0/"
+            alt="Exterior of a gallery"
+            class="w-full h-full object-contain"
+        />
+    </main>
 
-    <!-- Aboutセクション -->
     <section id="about" class="py-20 px-4 md:px-8">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-2xl font-bold text-gray-800 mb-8 tracking-wider">About</h2>
@@ -100,7 +95,6 @@
         </div>
     </section>
 
-    <!-- Artworkセクション (画像カルーセル) -->
     <section id="artwork" class="py-20 bg-#fafafa">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-2xl font-bold text-gray-800 mb-12 tracking-wider text-center">Artwork</h2>
@@ -109,8 +103,7 @@
                     <i class="fas fa-chevron-left text-gray-800 h-6 w-6"></i>
                 </button>
                 <div id="scroll-container" class="flex overflow-x-auto space-x-8 px-4 py-4 scroll-smooth scrollbar-hide">
-                    <!-- 画像はJavaScriptで動的に追加されます -->
-                </div>
+                    </div>
                 <button id="scroll-right" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-#fafafa rounded-full p-2 m-2 cursor-pointer hover:bg-#fafafa transition-colors duration-300" aria-label="Scroll right">
                     <i class="fas fa-chevron-right text-gray-800 h-6 w-6"></i>
                 </button>
@@ -118,7 +111,6 @@
         </div>
     </section>
 
-    <!-- アクセスセクション -->
     <section id="access" class="py-20 px-4 md:px-8">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-2xl font-bold text-gray-800 mb-8 tracking-wider">Access</h2>
@@ -139,7 +131,6 @@
         </div>
     </section>
 
-    <!-- コンタクトセクション -->
     <section id="contact" class="py-20 px-4 md:px-8">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-2xl font-bold text-gray-800 mb-8 tracking-wider">Contact</h2>
@@ -152,7 +143,6 @@
         </div>
     </section>
 
-    <!-- 画像拡大表示用モーダル -->
     <div id="image-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 cursor-pointer modal-fade-in">
         <img id="modal-image" class="max-w-[90vw] max-h-[90vh] object-contain">
     </div>
@@ -161,14 +151,14 @@
     //画像のパスを定義する部分
     const imageFolder = 'images/';
     const imageFiles = [
-        'DSC_0054.JPG',
-        'IMGP5193.JPG',
-        'IMGP5304.JPG',
-        'IMGP5312.JPG',
-        'IMGP4183.JPG',
-        'IMGP5310.JPG',
-        'IMGP5186.JPG',
-        'IMGP4788.JPG'
+        'DSC_0054.jpg', // 拡張子を小文字に修正
+        'IMGP5193.jpg', // 拡張子を小文字に修正
+        'IMGP5304.jpg', // 拡張子を小文字に修正
+        'IMGP5312.jpg', // 拡張子を小文字に修正
+        'IMGP4183.jpg', // 拡張子を小文字に修正
+        'IMGP5310.jpg', // 拡張子を小文字に修正
+        'IMGP5186.jpg', // 拡張子を小文字に修正
+        'IMGP4788.jpg'  // 拡張子を小文字に修正
     ];
 
     // DOM要素の取得
@@ -177,19 +167,19 @@
     const scrollRightButton = document.getElementById('scroll-right');
     const imageModal = document.getElementById('image-modal');
     const modalImage = document.getElementById('modal-image');
-    const navMenu = document.getElementById('nav-menu');
+    // document.getElementById('nav-menu'); // 削除
 
     // 作品画像を動的に追加
-    imageFiles.forEach((fileName, index) => { // 修正箇所: images を imageFiles に変更
+    imageFiles.forEach((fileName, index) => {
         const container = document.createElement('div');
         container.className = 'flex-shrink-0';
         const img = document.createElement('img');
-        const imageUrl = imageFolder + fileName; // パスを結合
-        img.src = imageUrl; // 修正箇所: img.src に正しいパスを設定
+        const imageUrl = imageFolder + fileName;
+        img.src = imageUrl;
         img.alt = `Artwork image ${index + 1}`;
         img.className = 'h-64 w-auto rounded-lg shadow-lg cursor-pointer transition-transform duration-300 hover:scale-105';
         img.addEventListener('click', () => {
-            modalImage.src = imageUrl; // 修正箇所: モーダルにも正しいパスを設定
+            modalImage.src = imageUrl;
             imageModal.classList.remove('hidden');
         });
         container.appendChild(img);
@@ -226,35 +216,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
