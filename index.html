@@ -69,18 +69,13 @@
 
     <!-- ヘッダーセクション -->
     <header class="fixed top-0 right-0 p-8 z-20">
-        <div 
-            class="relative"
-            onMouseEnter={() => setMenuOpen(true)}
-            onMouseLeave={() => setMenuOpen(false)}
-        >
-            
+        <div class="relative">
             <button id="menu-button" class="text-3xl text-gray-700 focus:outline-none transition-transform duration-300 hover:scale-110">
                 <i class="fas fa-bars"></i>
             </button>
             <!-- ナビゲーションメニュー -->
             <nav id="nav-menu" class="absolute top-full right-0 mt-2 bg-#fafafa backdrop-blur-sm rounded-md shadow-xl p-6 transition-all duration-300 ease-out opacity-0 -translate-y-4 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto">
-                <ul class="flex flex-col space-y-4 whitespace-nowrap">
+                <ul class="flex flex-col space-y-3 whitespace-nowrap">
                     <li><a href="#about" class="text-lg text-gray-700 hover:text-blue-600 transition-colors">About</a></li>
                     <li><a href="#artwork" class="text-lg text-gray-700 hover:text-blue-600 transition-colors">Artwork</a></li>
                     <li><a href="#access" class="text-lg text-gray-700 hover:text-blue-600 transition-colors">Access</a></li>
@@ -112,7 +107,7 @@
     <section id="about" class="py-20 px-4 md:px-8">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-2xl font-bold text-gray-800 mb-8 tracking-wider">About</h2>
-            <div class="text-sm text-center text-gray-700 leading-relaxed space-y-4">
+            <div class="text-sm text-center text-gray-700 leading-relaxed space-y-3">
                 <p>古い建物の記憶と、新しい感性の交差点</p>
                 <p>このギャラリーは、惜しまれつつも店を閉じた豆腐屋さんをリノベーションして生まれました。</p>
                 <p>豆腐屋の面影が残る土壁や梁はそのままに、新しい風を吹き込むギャラリーとして再出発しました。</p>
@@ -145,7 +140,7 @@
     <section id="access" class="py-20 px-4 md:px-8">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-2xl font-bold text-gray-800 mb-8 tracking-wider">Access</h2>
-            <div class="text-sm text-center text-gray-700 leading-relaxed space-y-4">
+            <div class="text-sm text-center text-gray-700 leading-relaxed space-y-3">
                 <div>
                     <p class="font-bold">所在地</p>
                     <p>東京都世田谷区上馬4丁目5-8</p>
@@ -166,7 +161,7 @@
     <section id="contact" class="py-20 px-4 md:px-8">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-2xl font-bold text-gray-800 mb-8 tracking-wider">Contact</h2>
-            <div class="text-sm text-center text-gray-700 leading-relaxed space-y-4">
+            <div class="text-sm text-center text-gray-700 leading-relaxed space-y-3">
                 <a href="https://www.instagram.com/_egaaa_?igsh=d3RhazVxcDB6eGto" target="_blank" rel="noopener noreferrer" class="inline-block">
                     <img src="https://ucarecdn.com/bf2c0a18-0baf-464f-b7da-c90899c6feba/" alt="Contact" class="h-12 w-12">
                 </a>
@@ -245,6 +240,7 @@
 
 </body>
 </html>
+
 
 
 
