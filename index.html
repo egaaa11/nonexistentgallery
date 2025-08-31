@@ -69,7 +69,12 @@
 
     <!-- ヘッダーセクション -->
     <header class="fixed top-0 right-0 p-8 z-20">
-        <div class="relative group">
+        <div 
+            class="relative"
+            onMouseEnter={() => setMenuOpen(true)}
+            onMouseLeave={() => setMenuOpen(false)}
+        >
+            
             <button id="menu-button" class="text-3xl text-gray-700 focus:outline-none transition-transform duration-300 hover:scale-110">
                 <i class="fas fa-bars"></i>
             </button>
@@ -86,11 +91,11 @@
     </header>
 
     <!-- メインビジュアルセクション -->
-    <div class="pt-40 pb-12 text-center px-4">
+    <div class="pt-30 pb-12 text-center px-4">
     <h1 class="text-2xl md:text-2xl font-bold text-gray-800 tracking-widest">
       NONEXISTENT GALLERY
     </h1>
-    <p class="mt-3 text-gray-700">
+    <p class="mt-2 text-gray-700">
       －このギャラリーはフィクションです－
     </p>
   </div>
@@ -240,6 +245,7 @@
 
 </body>
 </html>
+
 
 
 
