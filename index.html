@@ -157,7 +157,7 @@
         <img id="modal-image" class="max-w-[90vw] max-h-[90vh] object-contain">
     </div>
 
-    <script>
+<script>
     //画像のパスを定義する部分
     const imageFolder = 'images/';
     const imageFiles = [
@@ -169,62 +169,64 @@
         'IMGP5310.JPG',
         'IMGP5186.JPG',
         'IMGP4788.JPG'
-     ];
+    ];
 
-        // DOM要素の取得
-        const scrollContainer = document.getElementById('scroll-container');
-        const scrollLeftButton = document.getElementById('scroll-left');
-        const scrollRightButton = document.getElementById('scroll-right');
-        const imageModal = document.getElementById('image-modal');
-        const modalImage = document.getElementById('modal-image');
-        const navMenu = document.getElementById('nav-menu');
+    // DOM要素の取得
+    const scrollContainer = document.getElementById('scroll-container');
+    const scrollLeftButton = document.getElementById('scroll-left');
+    const scrollRightButton = document.getElementById('scroll-right');
+    const imageModal = document.getElementById('image-modal');
+    const modalImage = document.getElementById('modal-image');
+    const navMenu = document.getElementById('nav-menu');
 
-        // 作品画像を動的に追加
-        images.forEach((src, index) => {
-            const container = document.createElement('div');
-            container.className = 'flex-shrink-0';
-            const img = document.createElement('img');
-            img.src = src;
-            img.alt = `Artwork image ${index + 1}`;
-            img.className = 'h-64 w-auto rounded-lg shadow-lg cursor-pointer transition-transform duration-300 hover:scale-105';
-            img.addEventListener('click', () => {
-                modalImage.src = src;
-                imageModal.classList.remove('hidden');
-            });
-            container.appendChild(img);
-            scrollContainer.appendChild(container);
+    // 作品画像を動的に追加
+    imageFiles.forEach((fileName, index) => { // 修正箇所: images を imageFiles に変更
+        const container = document.createElement('div');
+        container.className = 'flex-shrink-0';
+        const img = document.createElement('img');
+        const imageUrl = imageFolder + fileName; // パスを結合
+        img.src = imageUrl; // 修正箇所: img.src に正しいパスを設定
+        img.alt = `Artwork image ${index + 1}`;
+        img.className = 'h-64 w-auto rounded-lg shadow-lg cursor-pointer transition-transform duration-300 hover:scale-105';
+        img.addEventListener('click', () => {
+            modalImage.src = imageUrl; // 修正箇所: モーダルにも正しいパスを設定
+            imageModal.classList.remove('hidden');
         });
+        container.appendChild(img);
+        scrollContainer.appendChild(container);
+    });
 
-        // カルーセルスクロール機能
-        scrollLeftButton.addEventListener('click', () => {
-            scrollContainer.scrollBy({ left: -300, behavior: 'smooth' });
-        });
+    // カルーセルスクロール機能
+    scrollLeftButton.addEventListener('click', () => {
+        scrollContainer.scrollBy({ left: -300, behavior: 'smooth' });
+    });
 
-        scrollRightButton.addEventListener('click', () => {
-            scrollContainer.scrollBy({ left: 300, behavior: 'smooth' });
-        });
+    scrollRightButton.addEventListener('click', () => {
+        scrollContainer.scrollBy({ left: 300, behavior: 'smooth' });
+    });
 
-        // モーダルを閉じる
-        imageModal.addEventListener('click', () => {
+    // モーダルを閉じる
+    imageModal.addEventListener('click', () => {
+        imageModal.classList.add('hidden');
+    });
+
+    // キーボードのEscapeキーでモーダルを閉じる
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !imageModal.classList.contains('hidden')) {
             imageModal.classList.add('hidden');
-        });
+        }
+    });
 
-        // キーボードのEscapeキーでモーダルを閉じる
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !imageModal.classList.contains('hidden')) {
-                imageModal.classList.add('hidden');
-            }
-        });
+    // ウィンドウのリサイズ時にスクロール位置を調整
+    window.addEventListener('resize', () => {
+        scrollContainer.scrollLeft = 0;
+    });
 
-        // ウィンドウのリサイズ時にスクロール位置を調整
-        window.addEventListener('resize', () => {
-            scrollContainer.scrollLeft = 0;
-        });
-
-    </script>
+</script>
 
 </body>
 </html>
+
 
 
 
