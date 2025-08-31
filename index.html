@@ -68,11 +68,15 @@
 <body class="text-gray-800">
 
     <!-- ヘッダーセクション -->
-    <header class="fixed top-0 right-0 p-8 z-20">
-        <div class="relative group">
-            <button id="menu-button" class="text-3xl text-gray-700 focus:outline-none transition-transform duration-300 hover:scale-110">
-                <i class="fas fa-bars"></i>
-            </button>
+    <header className="fixed top-0 right-0 p-8 z-20">
+        <div
+          className="relative"
+          onMouseEnter={handleMenuEnter}
+          onMouseLeave={handleMenuLeave}
+        >
+          <button className="text-3xl text-gray-700 focus:outline-none transition-transform duration-300 hover:scale-110">
+            <i className="fas fa-bars"></i>
+          </button>
             <!-- ナビゲーションメニュー -->
             <nav id="nav-menu" class="absolute top-full right-0 mt-2 bg-#fafafa backdrop-blur-sm rounded-md shadow-xl p-6 transition-all duration-300 ease-out opacity-0 -translate-y-4 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto">
                 <ul class="flex flex-col space-y-3 whitespace-nowrap">
@@ -240,6 +244,7 @@
 
 </body>
 </html>
+
 
 
 
